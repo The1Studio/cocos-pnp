@@ -141,6 +141,36 @@ type TAdapterRC = {
 }
 ```
 
+## Identify start ads game events in project
+### Create namespace in your project
+```ts
+declare global {
+    interface Window {
+        TheOneGamespace: {
+            isWinning: {
+                isWinning: boolean;
+            };
+        };
+    }
+}
+```
+
+### Use this code in start game events
+```ts
+  if (!window.TheOneGamespace) {
+    window.TheOneGamespace = { isWinning: { isWinning: false } };
+  }
+  window.TheOneGamespace.isWinning.isWinning = this.IsWin();
+  const event = new CustomEvent('gameStatusChanged', { detail: window.TheOneGamespace.isWinning });
+  window.dispatchEvent(event);
+
+  public IsWin(): boolean{
+      return false;
+  }
+```
+
+
+
 ## Plugin Development and Build Steps
 
 ### Clone the Project

@@ -3,4 +3,4 @@ export const PORTRAIT_META = `<meta name="ad.orientation" content="portrait"><me
 
 export const AD_SDK_SCRIPT = `<script type="text/javascript" src="https://tpc.googlesyndication.com/pagead/gadgets/html5/api/exitapi.js"></script>`
 
-export const SDK_EXIT_A_TAG = `<a onclick="ExitApi.exit()" style="display: none;"></a>`
+export const SDK_EXIT_A_TAG = `<script>window.addEventListener('gameStatusChanged',(event)=>{const isWinning=event.detail.isWinning;if(isWinning){window.ExitApi.exit()}else{console.log("The player is not winning yet.")}});</script>`

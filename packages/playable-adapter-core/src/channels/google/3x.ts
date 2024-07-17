@@ -1,4 +1,4 @@
-import { AD_SDK_SCRIPT, LANDSCAPE_META, PORTRAIT_META } from './inject-vars'
+import { AD_SDK_SCRIPT, LANDSCAPE_META, PORTRAIT_META, SDK_EXIT_A_TAG } from './inject-vars'
 import { exportSingleFile } from "@/exporter/3x"
 import { getChannelRCSdkScript } from '@/utils'
 import { TChannel, TChannelPkgOptions } from "@/typings"
@@ -20,11 +20,14 @@ export const export3xGoogle = async (options: TChannelPkgOptions) => {
       $(sdkInjectScript).appendTo('head')
 
       // 3D引擎需要补充在body里
-      // $(SDK_EXIT_A_TAG).appendTo('body')
+      $(SDK_EXIT_A_TAG).appendTo('body')
+      const sdkScript = getChannelRCSdkScript(channel) || SDK_EXIT_A_TAG
+      $('body script').first().before(sdkScript)
     },
     // transform: async (destPath) => {
     //   await zipToPath(destPath)
     //   unlinkSync(destPath)
     // }
+
   })
 }

@@ -1,5 +1,7 @@
 import { exportDirZipFromSingleFile } from "@/exporter/3x"
 import { TChannel, TChannelPkgOptions } from "@/typings"
+import { getChannelRCSdkScript } from "@/utils"
+import { AD_SDK_SCRIPT} from "./inject-vars"
 
 export const export3xMintegral = async (options: TChannelPkgOptions) => {
   const channel: TChannel = 'Mintegral'
@@ -7,5 +9,9 @@ export const export3xMintegral = async (options: TChannelPkgOptions) => {
   await exportDirZipFromSingleFile({
     ...options,
     channel,
+    transformHTML: async ($) => {
+      const sdkInjectScript = getChannelRCSdkScript(channel) || AD_SDK_SCRIPT
+      $('body script').first().before(sdkInjectScript)
+    }
   })
 }
