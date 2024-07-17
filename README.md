@@ -150,23 +150,35 @@ declare global {
             isWinning: {
                 isWinning: boolean;
             };
+            linkStore: {
+                linkStore: string;
+            }
         };
     }
 }
+
 ```
 
 ### Use this code in start game events
 ```ts
-  if (!window.TheOneGamespace) {
-    window.TheOneGamespace = { isWinning: { isWinning: false } };
-  }
-  window.TheOneGamespace.isWinning.isWinning = this.IsWin();
-  const event = new CustomEvent('gameStatusChanged', { detail: window.TheOneGamespace.isWinning });
-  window.dispatchEvent(event);
-
-  public IsWin(): boolean{
-      return false;
-  }
+      if (!window.TheOneGamespace) {
+            window.TheOneGamespace = { 
+                isWinning: { isWinning: false}, 
+                linkStore: { linkStore: this.currentLink}, 
+            };
+        }
+        
+    public EventStatus(isWinning:boolean, linkStore:string){
+        window.TheOneGamespace.isWinning.isWinning = isWinning;
+        window.TheOneGamespace.linkStore.linkStore = linkStore;
+        const event = new CustomEvent('gameStatusChanged', { 
+            detail: {
+                isWinning: window.TheOneGamespace.isWinning,
+                linkStore: window.TheOneGamespace.linkStore,
+            } 
+        });
+        window.dispatchEvent(event);
+    }
 ```
 
 
